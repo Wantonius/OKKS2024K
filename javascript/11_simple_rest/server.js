@@ -34,6 +34,18 @@ app.get("/api/shopping",function(req,res) {
 	return res.status(200).json(database);
 })
 
+app.post("/api/shopping",function(req,res) {
+	let item = {
+		"type":req.body.type,
+		"count":req.body.count,
+		"price":req.body.price,
+		"id":id
+	}
+	id++;
+	database.push(item);
+	return res.status(201).json(item);
+})
+
 app.listen(3000);
 
 console.log("Running in port 3000");
