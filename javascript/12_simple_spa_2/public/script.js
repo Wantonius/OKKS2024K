@@ -4,7 +4,7 @@ var mode = 0;
 
 window.onload = function() {
 	createForm();
-	populateTable();
+	getContactList();
 }
 
 createForm = () => {
@@ -80,7 +80,19 @@ createForm = () => {
 	root.appendChild(form);
 }
 
-addContact = () => {
+getContactList = async () => {
+		const response = await fetch("/api/contacts");
+		if(response.ok) {
+			let list = await response.json();
+			if(list) {
+				populateTable(list);
+			}
+		} else {
+			console.log("Server responded with a status "+response.status+" "+response.statusText)
+		}
+}
+
+addContact = async () => {
 	const firstNameInput = document.getElementById("firstname");
 	const lastNameInput = document.getElementById("lastname");
 	const emailInput = document.getElementById("email");
@@ -91,35 +103,43 @@ addContact = () => {
 		"email":emailInput.value,
 		"phone":phoneInput.value
 	}
-	if(mode) {
-		contact.id = mode;
-		for(let i=0;i<database.length;i++) {
-			if(contact.id === database[i].id) {
-				database.splice(i,1,contact);
-			}
-		}	
-	} else {
-		contact.id = id;
-		id++;
-		database.push(contact);
+	let url = "/api/contacts"
+	let request = {
+		"method":"POST",
+		"headers":{
+			"Content-type":"application/json"
+		},
+		"body":JSON.stringify(contact)
 	}
-	firstNameInput.value = "";
-	lastNameInput.value = "";
-	emailInput.value = "";
-	phoneInput.value = "";
-	const submitButton = document.getElementById("submitbutton");
-	submitButton.value = "Add";
-	mode = 0;
-	populateTable();
+	if(mode) {
+		url = "/api/contacts/"+mode;
+		request.method = "PUT";
+	}
+	const response = await fetch(url,request);
+	if(response.ok) {
+		firstNameInput.value = "";
+		lastNameInput.value = "";
+		emailInput.value = "";
+		phoneInput.value = "";
+		const submitButton = document.getElementById("submitbutton");
+		submitButton.value = "Add";
+		mode = 0;
+		getContactList();
+	} else {
+		console.log("Server responded with a status "+response.status+" "+response.statusText);
+	}
 }
 
-removeContact = (id) => {
-	for(let i=0;i<database.length;i++) {
-		if(id === database[i].id) {
-				database.splice(i,1);
-		}
+removeContact = async (id) => {
+	let request = {
+		"method":"DELETE"
 	}
-	populateTable();
+	const response = await fetch("/api/contacts/"+id,request);
+	if(response.ok) {
+		getContactList();
+	} else {
+		console.log("Server responded with a status "+response.status+" "+response.statusText);
+	}
 }
 
 editContact = (contact) => {
@@ -136,7 +156,7 @@ editContact = (contact) => {
 	submitButton.value = "Save";	
 }
 
-populateTable = () => {
+populateTable = (list) => {
 	const root = document.getElementById("root");
 	const oldTable = document.getElementById("table");
 	if(oldTable) {
@@ -189,14 +209,14 @@ populateTable = () => {
 	//Table body
 	
 	const body = document.createElement("tbody");
-	for(let i=0;i<database.length;i++) {
+	for(let i=0;i<list.length;i++) {
 		const row = document.createElement("tr");
-		for(x in database[i]) {
+		for(x in list[i]) {
 			if(x === "id") {
 				continue;
 			}
 			const column = document.createElement("td");
-			const info = document.createTextNode(database[i][x])
+			const info = document.createTextNode(list[i][x])
 			column.appendChild(info)
 			row.append(column);
 		}
@@ -206,7 +226,7 @@ populateTable = () => {
 		const removeButtonText = document.createTextNode("Remove");
 		removeButton.appendChild(removeButtonText);
 		removeButton.addEventListener("click",function(event) {
-			removeContact(database[i].id);
+			removeContact(list[i].id);
 		})
 		
 		const editColumn = document.createElement("td");
@@ -215,7 +235,7 @@ populateTable = () => {
 		const editButtonText = document.createTextNode("Edit");
 		editButton.appendChild(editButtonText);
 		editButton.addEventListener("click",function(event) {
-			editContact(database[i])
+			editContact(list[i])
 		})
 		
 		removeColumn.appendChild(removeButton);
