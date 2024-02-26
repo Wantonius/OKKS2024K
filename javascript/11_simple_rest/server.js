@@ -46,6 +46,13 @@ app.post("/api/shopping",function(req,res) {
 	return res.status(201).json(item);
 })
 
+app.delete("/api/shopping/:id",function(req,res) {
+	let tempId = parseInt(req.params.id,10)
+	let tempDatabase = database.filter(item => item.id !== tempId);
+	database = tempDatabase;
+	return res.status(200).json({"Message":"Success"})
+})
+
 app.listen(3000);
 
 console.log("Running in port 3000");
