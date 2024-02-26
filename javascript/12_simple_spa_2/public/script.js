@@ -103,7 +103,7 @@ addContact = async () => {
 		"email":emailInput.value,
 		"phone":phoneInput.value
 	}
-	let url = "/api/contacts"
+	let url = "/api/contacts";
 	let request = {
 		"method":"POST",
 		"headers":{
