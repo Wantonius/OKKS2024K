@@ -21,7 +21,24 @@ const users = [];
 
 io.on("connection",(socket) => {
 	socket.on("adduser", username => {
-		console.log(username)
+		socket.user = username;
+		users.push(username);
+		io.sockets.emit("users",users);
+	})
+	
+	socket.on("message", message => {
+		io.sockets.emit("message",{
+			message,
+			user:socket.user,
+			id:socket.id
+		})
+	})
+	
+	socket.on("disconnect", () => {
+		if(socket.user) {
+			users.splice(users.indexOf(socket.user),1);
+			io.sockets.emit("user",users);
+		}
 	})
 	
 });
