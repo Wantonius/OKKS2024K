@@ -4,15 +4,13 @@
 		<meta charset="UTF-8"/>
 		<title>Simple Chat app</title>
 		<link rel="stylesheet" href="style.css"/>
-		<script src="https://cdn.socket.io/4.7.4/socket.io.min.js" integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4" crossorigin="anonymous"></script>
-		<script src="script.js"></script>
 	</head>	
 	<body>
 		<h1>Chat App</h1>
 		<div class="container">
 			<div class="chatbox">
 				<ul id="messagelist"></ul>
-				<form class="Input">
+				<form class="Input" id="chatform">
 					<input type="text" placeholder="Type your message"/>
 					<button>Send</button>
 				</form>
@@ -24,4 +22,6 @@
 			</div>
 		</div>
 	</body>
+	<script src="https://cdn.socket.io/4.7.4/socket.io.min.js" integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4" crossorigin="anonymous"></script>
+	<script src="script.js"></script>
 </html>

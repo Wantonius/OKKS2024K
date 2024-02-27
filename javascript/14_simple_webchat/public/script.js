@@ -1,8 +1,10 @@
 const socket = io("http://localhost:3000");
-const messageForm = document.querySelector(".chatbox form");
+const messageForm = document.querySelector("#chatform");
 const messageList = document.querySelector("#messagelist");
 const userList = document.querySelector("#users");
 const chatInput = document.querySelector(".chatbox input");
+
+
 
 let users = [];
 let messages = [];
@@ -50,7 +52,7 @@ function messageSubmitHandler(e) {
 messageForm.addEventListener("submit",messageSubmitHandler);
 
 function startChatting() {
-	let usernumber = Math.floor(Math.random*10000);
+	let usernumber = Math.floor(Math.random()*10000);
 	let username = "User"+usernumber;
 	socket.emit("adduser",username);
 }
