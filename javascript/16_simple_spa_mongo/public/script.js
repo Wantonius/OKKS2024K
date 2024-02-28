@@ -151,7 +151,7 @@ editContact = (contact) => {
 	lastNameInput.value = contact.lastname;
 	emailInput.value = contact.email;
 	phoneInput.value = contact.phone;
-	mode = contact.id;
+	mode = contact._id;
 	const submitButton = document.getElementById("submitbutton");
 	submitButton.value = "Save";	
 }
@@ -212,7 +212,7 @@ populateTable = (list) => {
 	for(let i=0;i<list.length;i++) {
 		const row = document.createElement("tr");
 		for(x in list[i]) {
-			if(x === "id") {
+			if(x === "_id" || x === "__v") {
 				continue;
 			}
 			const column = document.createElement("td");
@@ -226,7 +226,7 @@ populateTable = (list) => {
 		const removeButtonText = document.createTextNode("Remove");
 		removeButton.appendChild(removeButtonText);
 		removeButton.addEventListener("click",function(event) {
-			removeContact(list[i].id);
+			removeContact(list[i]._id);
 		})
 		
 		const editColumn = document.createElement("td");
