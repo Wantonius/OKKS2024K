@@ -1,0 +1,12 @@
+Kirjasto:
+
+Luodaan Kirjasto. Meillä on Book ja Library luokat. Book sisältää numeraalisen id:n, kirjan nimen, kirjailijan nimen, sivumäärän, genren ja onko kirja lainassa. Aluksi Libraryyn tehdään __init__ funktiossa lista, johon lisätään vähintään viisi kirjaa. Lisätään funktiot kirjan lainaamiselle ja palauttamiselle id:n avulla. Lisäksi funktiot listaamaan kirjat erotellen lainassa olevat muista kirjoista.
+
+Mainissa pyöritetään while loopissa kyselyä, että mitä käyttäjä haluaa tehdä kunnes q eli quit.
+
+User inputin lukeminen pythonissa: https://www.w3schools.com/python/python_user_input.asp
+
+Switch casen tilalta modernissa pythonissa on match-case:
+https://www.tutorialspoint.com/python/python_matchcase_statement.htm
+
+Bonus: Lisää kirjojen lisääminen Libraryyn. 
