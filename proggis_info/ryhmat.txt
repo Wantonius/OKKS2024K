@@ -1,0 +1,26 @@
+Projektiryhmät:
+1. Markus & Kata:
+Etäelintarvikekauppa
+SQL, ehkä Python
+
+2. Ville Lyytikäinen:
+"Facebook"
+MERN?
+
+3. Jani Seppälä:
+Talousuutiskeräin + ChatGPT selvennin
+Flask + Mongo + React
+
+4. Ville Tamminen:
+Redditin r/place-kopio. Voi värittää pikseleitä. Piirtoalusta on joko globaali tai yksityinen.
+MERN
+
+5. Timo Leppänen:
+Netflix lokaali
+Python, Mongo, React
+git:https://github.com/timoleppanen85/localflix
+
+6. Pekka Makkonen:
+Verkkokauppa
+React, SQL
+git: https://github.com/pekkamakkonen/online-shop
