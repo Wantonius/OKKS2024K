@@ -5,11 +5,12 @@ SQL, ehkä Python
 
 2. Ville Lyytikäinen:
 "Facebook"
-MERN?
+https://github.com/villelyytikainen/Social-Media-Platform
 
 3. Jani Seppälä:
 Talousuutiskeräin + ChatGPT selvennin
 Flask + Mongo + React
+https://github.com/Jani-Seppala/projektit/tree/master/Markkinauutiset_ChatGPT
 
 4. Ville Tamminen:
 Redditin r/place-kopio. Voi värittää pikseleitä. Piirtoalusta on joko globaali tai yksityinen.
@@ -24,3 +25,38 @@ git:https://github.com/timoleppanen85/localflix
 Verkkokauppa
 React, SQL
 git: https://github.com/pekkamakkonen/online-shop
+
+7. Tuomas Varsta:
+Infonäyttöpalvelin
+Flask, React
+
+8. Ville Pohjonen:
+Verkkokauppa
+Flask? Django? React, MySQL
+
+9. Jarkko Kuivala:
+Huolto-todo
+Flask, React, SQL
+
+10. Antti Martikainen:
+Reseptivihko
+SQL, React, Flask
+
+11. Jukka Heino:
+Nettilinkkien ylläpito portaali
+Flask, SQL, React
+
+12. Mikko Kylliäinen:
+Statistiikkaloggeri / laskuri, Flask tai FastAPI, React, DB?
+
+13. Mikhail Dergauz:
+Discord simplified
+Python, React
+https://github.com/VarlogMD/UnionApp-Client Client
+https://github.com/VarlogMD/UnionWebApi Server
+MySQL
+
+14. Roxana Contreras:
+Jalkapallo veikkaussofta
+Python, SQL, React
+
