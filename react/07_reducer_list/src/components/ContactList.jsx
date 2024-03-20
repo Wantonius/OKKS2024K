@@ -1,4 +1,7 @@
 import {useState} from 'react';
+import Row from './Row';
+import RemoveRow from './RemoveRow';
+import EditRow from './EditRow';
 
 const ContactList = (props) => {
 
@@ -39,20 +42,24 @@ const ContactList = (props) => {
 	}
 
 
-	const contacts = props.list.map((contact) => {
+	const contacts = props.list.map((contact,index) => {
+		if(state.removeIndex === index) {
+			return (
+				<RemoveRow key={contact.id} contact={contact} removeContact={removeContact} changeMode={changeMode}/>
+			)
+		}
+		if(state.editIndex === index) {
+			return(
+				<EditRow key={contact.id} contact={contact} editContact={editContact} changeMode={changeMode}/>
+			)
+		}		
 		return (
-			<tr key={contact.id}>
-				<td>{contact.firstname}</td>
-				<td>{contact.lastname}</td>
-				<td>{contact.email}</td>
-				<td>{contact.phone}</td>
-				<td><button onClick={() => props.removeContact(contact.id)}>Remove</button></td>
-			</tr>
+			<Row key={contact.id} contact={contact} index={index} changeMode={changeMode}/>
 		)
 	})
 	
 	return(
-		<table>
+		<table className="table table-striped">
 			<thead>
 				<tr>
 					<th>First Name</th>
@@ -60,6 +67,7 @@ const ContactList = (props) => {
 					<th>Email</th>
 					<th>Phone</th>
 					<th>Remove</th>
+					<th>Edit</th>
 				</tr>	
 			</thead>
 			<tbody>
