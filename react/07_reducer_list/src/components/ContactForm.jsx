@@ -35,7 +35,7 @@ const ContactForm = (props) => {
 	}
 	
 	return(
-		<div style={{"width":"40%","backgroundColor":"lightgreen","margin":"auto","text-align":"center"}}>
+		<div style={{"width":"40%","backgroundColor":"lightgreen","margin":"auto","textAlign":"center"}}>
 		<form onSubmit={onSubmit} className="m-3">
 			<label htmlFor="firstname" className="form-label">First Name</label>
 			<input type="text"
