@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import ContactForm from './components/ContactForm';
+import ContactList from './components/ContactList';
 
 function App() {
 
@@ -31,6 +32,8 @@ function App() {
 	return (
 		<>
 			<ContactForm addContact={addContact}/>
+			<hr/>
+			<ContactList list={state.list} removeContact={removeContact}/>
 		</>
 	)
 }
