@@ -53,7 +53,7 @@ const ShoppingList = (props) => {
 			)
 		}
 		return(
-			<Row key={item._id} item={item} changeMode={changeMode} editItem={editItem}/>
+			<Row key={item._id} item={item} changeMode={changeMode} index={index}/>
 		)
 	})
 	return(
