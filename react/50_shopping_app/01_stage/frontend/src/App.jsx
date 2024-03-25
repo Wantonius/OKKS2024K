@@ -1,6 +1,8 @@
 import useAction from './hooks/useAction';
 import ShoppingForm from './components/ShoppingForm';
 import ShoppingList from './components/ShoppingList';
+import Navbar from './components/Navbar';
+import {Routes,Route,Navigate} from 'react-router-dom';
 
 function App() {
 
@@ -8,8 +10,12 @@ function App() {
 
 	return (
 		<>
-			<ShoppingForm addItem={addItem}/>
-			<ShoppingList list={state.list} removeItem={removeItem} editItem={editItem}/>
+			<Navbar/>
+			<Routes>
+				<Route path="/" element={<ShoppingList list={state.list} removeItem={removeItem} editItem={editItem}/>}/>
+				<Route path="/form" element={<ShoppingForm addItem={addItem}/>}/>
+				<Route path="*" element={<Navigate to="/"/>}/>
+			</Routes>
 		</>
 	)
 }
