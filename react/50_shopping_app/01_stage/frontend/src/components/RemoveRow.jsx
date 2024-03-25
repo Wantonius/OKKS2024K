@@ -8,7 +8,7 @@ const RemoveRow = (props) => {
 			<td><button className="btn btn-danger"
 				onClick={() => props.changeMode("cancel",0)}>Cancel</button></td>
 			<td><button className="btn btn-success"
-				onClick={() => props.removeItem(props.item._id}>Confirm</button></td>
+				onClick={() => props.removeItem(props.item._id)}>Confirm</button></td>
 		</tr>
 	)
 }
