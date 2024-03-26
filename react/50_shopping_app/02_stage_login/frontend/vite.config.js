@@ -10,7 +10,22 @@ export default defineConfig({
 			  target:"http://localhost:3000",
 			  changeOrigin:true,
 			  secure:false
-		  }
+		  },
+		  "/register":{
+			  target:"http://localhost:3000",
+			  changeOrigin:true,
+			  secure:false
+		  },
+		  "/login":{
+			  target:"http://localhost:3000",
+			  changeOrigin:true,
+			  secure:false
+		  },
+		  "/logout":{
+			  target:"http://localhost:3000",
+			  changeOrigin:true,
+			  secure:false
+		  }		  
 	  }
   }
 })
