@@ -290,7 +290,7 @@ const useAction = () => {
 		})
 	}
 
-	return {state,addItem,removeItem,editItem,register,login,logout}
+	return {state,addItem,removeItem,editItem,register,login,logout,setError}
 }
 
 export default useAction;
