@@ -4,7 +4,8 @@ const itemModel = require("../models/item");
 let router = express.Router();
 
 router.get("/shopping",function(req,res) {
-	itemModel.find().then(function(items) {
+	let query = {"user":req.session.user}
+	itemModel.find(query).then(function(items) {
 		return res.status(200).json(items)
 	}).catch(function(err) {
 		console.log(err);
@@ -20,6 +21,7 @@ router.post("/shopping",function(req,res) {
 		return res.status(400).json({"Message":"Bad Request"})
 	}
 	let item = new itemModel({
+		"user":req.session.user,
 		"type":req.body.type,
 		"count":req.body.count,
 		"price":req.body.price
@@ -33,7 +35,7 @@ router.post("/shopping",function(req,res) {
 })
 
 router.delete("/shopping/:id",function(req,res) {
-	itemModel.deleteOne({"_id":req.params.id}).then(function(stats) {
+	itemModel.deleteOne({"_id":req.params.id,"user":req.session.user}).then(function(stats) {
 		return res.status(200).json({"Message":"Success"})
 	}).catch(function(err) {
 		console.log(err);
@@ -49,11 +51,12 @@ router.put("/shopping/:id",function(req,res) {
 		return res.status(400).json({"Message":"Bad Request"})
 	}
 	let item = {
+		"user":req.session.user,
 		"type":req.body.type,
 		"count":req.body.count,
 		"price":req.body.price
 	}
-	itemModel.replaceOne({"_id":req.params.id},item).then(function(stats) {
+	itemModel.replaceOne({"_id":req.params.id,"user":req.session.user},item).then(function(stats) {
 		return res.status(200).json({"Message":"Success"})
 	}).catch(function(err) {
 		console.log(err);
