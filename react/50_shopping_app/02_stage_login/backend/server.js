@@ -23,7 +23,7 @@ mongoose.connect(url).then(
 
 //HELPERS and MIDDLEWARES
 
-const time_to_life_diff = 3600000
+const time_to_live_diff = 3600000
 
 
 //LOGIN API
