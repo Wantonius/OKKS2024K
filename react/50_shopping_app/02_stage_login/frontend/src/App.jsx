@@ -8,7 +8,7 @@ import {Routes,Route,Navigate} from 'react-router-dom';
 
 function App() {
 
-	const {state,addItem,removeItem,editItem,register,login,logout} = useAction();
+	const {state,addItem,removeItem,editItem,register,login,logout,setError} = useAction();
 
 	let message = <></>
 	if(state.loading) {
