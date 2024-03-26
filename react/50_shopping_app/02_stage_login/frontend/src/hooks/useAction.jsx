@@ -186,13 +186,17 @@ const useAction = () => {
 
 	//REST API
 
-	const getList = (token) => {
+	const getList = (token,search) => {
 		let tempToken = state.token;
 		if(token) {
 			tempToken = token;
 		}
+		let url = "/api/shopping"
+		if(search) {
+			url = url + "?type="+search
+		}
 		setUrlRequest({
-			url:"/api/shopping",
+			url:url,
 			request:{
 				"method":"GET",
 				"headers":{
@@ -290,7 +294,7 @@ const useAction = () => {
 		})
 	}
 
-	return {state,addItem,removeItem,editItem,register,login,logout,setError}
+	return {state,addItem,removeItem,editItem,register,login,logout,setError,getList}
 }
 
 export default useAction;

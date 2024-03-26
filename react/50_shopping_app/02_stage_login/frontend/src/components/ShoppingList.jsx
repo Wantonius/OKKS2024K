@@ -10,6 +10,23 @@ const ShoppingList = (props) => {
 		editIndex:-1
 	})
 	
+	const [search,setSearch] = useState({
+		type:""
+	})
+	
+	const onChange = (event) => {
+		setSearch({
+			type:event.target.value
+		})
+	}
+	
+	const searchByType = () => {
+		props.getList("",search.type);
+		setSearch({
+			type:""
+		})
+	}
+	
 	const changeMode = (mode,index) => {
 		if(mode === "remove") {
 			setState({
@@ -57,6 +74,16 @@ const ShoppingList = (props) => {
 		)
 	})
 	return(
+	<div>
+		<div style={{margin:"auto",textAlign:"center"}}>
+			<label htmlFor="search">Search by type</label>
+			<input type="text"
+					name="search"
+					id="search"
+					onChange={onChange}
+					value={search.type}/>
+			<button className="btn btn-primary" onClick={searchByType}>Search</button>
+		</div>
 		<table className="table table-striped">
 			<thead>
 				<tr>
@@ -71,7 +98,7 @@ const ShoppingList = (props) => {
 			{items}
 			</tbody>
 		</table>
-	
+	</div>
 	)
 }
 

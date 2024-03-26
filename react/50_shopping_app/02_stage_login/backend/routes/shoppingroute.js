@@ -5,6 +5,9 @@ let router = express.Router();
 
 router.get("/shopping",function(req,res) {
 	let query = {"user":req.session.user}
+	if(req.query.type) {
+		query.type = req.query.type
+	}
 	itemModel.find(query).then(function(items) {
 		return res.status(200).json(items)
 	}).catch(function(err) {

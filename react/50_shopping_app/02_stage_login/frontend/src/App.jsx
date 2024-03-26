@@ -8,7 +8,7 @@ import {Routes,Route,Navigate} from 'react-router-dom';
 
 function App() {
 
-	const {state,addItem,removeItem,editItem,register,login,logout,setError} = useAction();
+	const {state,addItem,removeItem,editItem,register,login,logout,setError,getList} = useAction();
 
 	let message = <></>
 	if(state.loading) {
@@ -25,7 +25,7 @@ function App() {
 					{message}
 				</div>
 				<Routes>
-					<Route path="/" element={<ShoppingList list={state.list} removeItem={removeItem} editItem={editItem}/>}/>
+					<Route path="/" element={<ShoppingList list={state.list} getList={getList} removeItem={removeItem} editItem={editItem}/>}/>
 					<Route path="/form" element={<ShoppingForm addItem={addItem}/>}/>
 					<Route path="*" element={<Navigate to="/"/>}/>
 				</Routes>
