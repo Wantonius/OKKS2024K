@@ -96,7 +96,7 @@ const handleFetch = async (request,url,act,dispatch,token) => {
 		}
 	} else {
 		if(response.status === 403) {
-			dispatch(logoutFailed("Your session has expired. Logging you out!");
+			dispatch(logoutFailed("Your session has expired. Logging you out!"));
 			return;
 		}
 		const errorMessage = " Server responded with a status "+response.status+" "+response.statusText
