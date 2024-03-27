@@ -1,5 +1,5 @@
 import * as actionConstants from './actionConstants';
-
+import {getList} from './shoppingActions';
 
 //ASYNC THUNKS
 
@@ -62,7 +62,7 @@ const handleLogin = async (request,url,act,dispatch) => {
 					return;
 				}
 				dispatch(loginSuccess(data.token));
-				//dispatch getlist
+				dispatch(getList(data.token));
 				return;
 			case "logout":
 				dispatch(logoutSuccess());

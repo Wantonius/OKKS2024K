@@ -4,12 +4,25 @@ import ShoppingList from './components/ShoppingList';
 import Navbar from './components/Navbar';
 import LoginPage from './components/LoginPage';
 import {Routes,Route,Navigate} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
 
 function App() {
 
-	const {state,addItem,removeItem,editItem,register,login,logout,setError,getList} = useAction();
-
+	const selector = (state) => {
+		let error = state.shopping.error;
+		if(state.login.error) {
+			error = state.login.error
+		}
+		return {
+			isLogged:state.login.isLogged,
+			loading:state.login.loading,
+			error:error
+		}
+	}
+	
+	const state = useSelector(selector);
+	
 	let message = <></>
 	if(state.loading) {
 		message = <h4>Loading ...</h4>
@@ -20,13 +33,13 @@ function App() {
 	if(state.isLogged) {
 		return (
 			<>
-				<Navbar logout={logout} isLogged={state.isLogged} user={state.user}/>
+				<Navbar />
 				<div style={{height:25,textAlign:"center"}}>
 					{message}
 				</div>
 				<Routes>
-					<Route path="/" element={<ShoppingList list={state.list} getList={getList} removeItem={removeItem} editItem={editItem}/>}/>
-					<Route path="/form" element={<ShoppingForm addItem={addItem}/>}/>
+					<Route path="/" element={<ShoppingList />}/>
+					<Route path="/form" element={<ShoppingForm />}/>
 					<Route path="*" element={<Navigate to="/"/>}/>
 				</Routes>
 			</>
@@ -34,12 +47,12 @@ function App() {
 	} else {
 		return (
 			<>
-				<Navbar logout={logout} isLogged={state.isLogged} user={state.user}/>
+				<Navbar />
 				<div style={{height:25,textAlign:"center"}}>
 					{message}
 				</div>
 				<Routes>
-					<Route path="/" element={<LoginPage login={login} register={register} setError={setError}/>}/>
+					<Route path="/" element={<LoginPage />}/>
 					<Route path="*" element={<Navigate to="/"/>}/>
 				</Routes>
 			</>
