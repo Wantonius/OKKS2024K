@@ -77,7 +77,7 @@ const handleFetch = async (request,url,act,dispatch,token) => {
 					dispatch(fetchListFailed("Failed to parse shopping information. Try again later."));
 					return;
 				}
-				dispatch(fetchItemSuccess(list));
+				dispatch(fetchListSuccess(list));
 				return
 			case "add":
 				dispatch(fetchItemSuccess(actionConstants.ADD_ITEM_SUCCESS));
