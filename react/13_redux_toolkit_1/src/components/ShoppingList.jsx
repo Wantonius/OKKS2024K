@@ -2,6 +2,8 @@ import {useState} from 'react';
 import Row from './Row';
 import RemoveRow from './RemoveRow';
 import EditRow from './EditRow';
+import {useDispatch,useSelector} from 'react-redux';
+import {edit,remove} from '../store/shoppingSlice';
 
 const ShoppingList = (props) => {
 	
@@ -9,6 +11,9 @@ const ShoppingList = (props) => {
 		removeIndex:-1,
 		editIndex:-1
 	})
+	
+	const dispatch = useDispatch();
+	const list = useSelector(state => state.list);
 	
 	const changeMode = (mode,index) => {
 		if(mode === "remove") {
@@ -32,16 +37,16 @@ const ShoppingList = (props) => {
 	}
 	
 	const removeItem = (id) => {
-		props.removeItem(id);
+		dispatch(remove(id));
 		changeMode("cancel")
 	}
 	
 	const editItem = (item) => {
-		props.editItem(item);
+		dispatch(edit(item));
 		changeMode("cancel")
 	}
 	
-	let items = props.list.map((item,index) => {
+	let items = list.map((item,index) => {
 		if(index === state.removeIndex) {
 			return(
 				<RemoveRow key={item._id} item={item} changeMode={changeMode} removeItem={removeItem}/>

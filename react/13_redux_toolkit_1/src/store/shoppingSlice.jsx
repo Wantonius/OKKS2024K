@@ -49,3 +49,29 @@ export const edit = createAsyncThunk("edit", async (item,thunkAPI) => {
 	}
 	return {"Message":"Success"}
 })
+
+const initialState = {
+	list:[]
+}
+
+const shoppingSlice = createSlice({
+	name:"shopping",
+	initialState,
+	reducers:{},
+	extraReducers:(builder) => {
+		builder.addCase(getList.fulfilled,(state,action) => {
+			state.list = action.payload
+		})
+		builder.addCase(add.fulfilled,(state,action) => {
+			console.log(action);
+		})
+		builder.addCase(remove.fulfilled,(state,action) => {
+			console.log(action);
+		})
+		builder.addCase(edit.fulfilled,(state,action) => {
+			console.log(action);
+		})
+	}
+})
+
+export default shoppingSlice.reducer; 
