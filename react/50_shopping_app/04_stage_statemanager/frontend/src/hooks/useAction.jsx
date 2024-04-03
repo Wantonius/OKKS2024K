@@ -101,36 +101,63 @@ const useAction = () => {
 				}
 			} else {
 				if(response.status === 403) {
-					clearState("Your session has expired. Logging you out.");
+					dispatch({
+						type:actionConstants.LOGOUT_FAILED,
+						error:"Your session has expired. Logging you out."
+					})
 					return;
 				}
 				let errorMessage = " Server responded with a status "+response.status+" "+response.statusText;
 				switch(urlRequest.action) {
 					case "register":
 						if(response.status === 409) {
-							setError("Username is already in use");
+							dispatch({
+								type:actionConstants.REGISTER_FAILED,
+								error:"Username already in use"
+							})
 							return;
 						} else {
-							setError("Register failed."+errorMessage);
+							dispatch({
+								type:actionConstants.REGISTER_FAILED,
+								error:"Register failed."+errorMessage
+							})
 							return;
 						}
 					case "login":
-						setError("Login failed."+errorMessage);
+						dispatch({
+								type:actionConstants.LOGIN_FAILED,
+								error:"Login failed."+errorMessage
+							})
 						return;
 					case "getlist":
-						setError("Failed to fetch shopping information."+errorMessage);
+						dispatch({
+								type:actionConstants.FETCH_LIST_FAILED,
+								error:"Failed to fetch shopping information."+errorMessage
+							})
 						return;
 					case "add":
-						setError("Failed to add new item."+errorMessage);
+						dispatch({
+								type:actionConstants.ADD_ITEM_FAILED,
+								error:"Failed to add new item."+errorMessage
+							})
 						return;
 					case "remove":
-						setError("Failed to remove item."+errorMessage);
+						dispatch({
+								type:actionConstants.REMOVE_ITEM_FAILED,
+								error:"Failed to remove item."+errorMessage
+							})
 						return;
 					case "edit":
-						setError("Failed to edit item."+errorMessage);
+						dispatch({
+								type:actionConstants.EDIT_ITEM_FAILED,
+								error:"Failed to edit item."+errorMessage
+							})
 						return;
 					case "logout":
-						clearState("Server responded with an error. Logging you out.");
+						dispatch({
+								type:actionConstants.LOGOUT_FAILED,
+								error:"Server responded with an error. Logging you out."
+							})
 						return;
 					default:
 						return;
@@ -145,7 +172,7 @@ const useAction = () => {
 	//REST API
 
 	const getList = (token,search) => {
-		let tempToken = state.token;
+		let tempToken = token;
 		if(token) {
 			tempToken = token;
 		}
@@ -165,14 +192,14 @@ const useAction = () => {
 		})
 	}
 
-	const addItem = (item) => {
+	const add = (item) => {
 		setUrlRequest({
 			url:"/api/shopping",
 			request:{
 				"method":"POST",
 				"headers":{
 					"Content-type":"application/json",
-					"token":state.token
+					"token":token
 				},
 				"body":JSON.stringify(item)
 			},
@@ -180,27 +207,27 @@ const useAction = () => {
 		})
 	}
 	
-	const removeItem = (id) => {
+	const remove = (id) => {
 		setUrlRequest({
 			url:"/api/shopping/"+id,
 			request:{
 				"method":"DELETE",
 				"headers":{
-					"token":state.token
+					"token":token
 				}
 			},
 			action:"remove"
 		})
 	}
 
-	const editItem = (item) => {
+	const edit = (item) => {
 		setUrlRequest({
 			url:"/api/shopping/"+item._id,
 			request:{
 				"method":"PUT",
 				"headers":{
 					"Content-type":"application/json",
-					"token":state.token
+					"token":token
 				},
 				"body":JSON.stringify(item)
 			},
@@ -225,6 +252,10 @@ const useAction = () => {
 	}
 
 	const login = (user) => {
+		dispatch({
+			type:actionConstants.SET_USERNAME,
+			user:user.username
+		})
 		setUrlRequest({
 			url:"/login",
 			request:{
@@ -236,7 +267,6 @@ const useAction = () => {
 			},
 			action:"login"
 		})
-		setUser(user.username);
 	}
 
 	const logout = () => {
@@ -245,14 +275,21 @@ const useAction = () => {
 			request:{
 				"method":"POST",
 				"headers":{
-					"token":state.token
+					"token":token
 				}
 			},
 			action:"logout"
 		})
 	}
+	
+	const setError = (error) => {
+		dispatch({
+			type:actionConstants.REGISTER_FAILED,
+			error:error
+		})
+	}
 
-	return {state,addItem,removeItem,editItem,register,login,logout,setError,getList}
+	return {add,remove,edit,register,login,logout,setError,getList}
 }
 
 export default useAction;

@@ -1,11 +1,14 @@
 import {useState} from 'react';
+import useAction from '../hooks/useAction';
 
-const LoginPage = (props) => {
+const LoginPage = () => {
 	
 	const [state,setState] = useState({
 		username:"",
 		password:""
 	})
+	
+	const {login,register,setError} = useAction();
 	
 	const onChange = (event) => {
 		setState((state) => {
@@ -19,16 +22,16 @@ const LoginPage = (props) => {
 	const onSubmit = (event) => {
 		event.preventDefault();
 		if(state.username.length < 4 || state.password.length < 8) {
-			props.setError("Username must be atleast 4 and password 8 characters long.");
+			setError("Username must be atleast 4 and password 8 characters long.");
 			return;
 		}
 		let user = {
 			...state
 		}
 		if(event.target.name === "register") {
-			props.register(user);
+			register(user);
 		} else {
-			props.login(user);
+			login(user);
 		}
 	}
 	return(
