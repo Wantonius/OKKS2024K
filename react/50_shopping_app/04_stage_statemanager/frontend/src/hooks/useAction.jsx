@@ -1,15 +1,12 @@
-import {useState,useEffect} from 'react';
+import {useState,useEffect,useContext} from 'react';
+import useAppState from './useAppState';
+import * as actionConstants from '../context/actionConstants';
+import ActionContext from '../context/ActionContext';
 
 const useAction = () => {
 	
-	const [state,setState] = useState({
-		list:[],
-		isLogged:false,
-		token:"",
-		loading:false,
-		error:"",
-		user:""
-	})
+	const {dispatch} = useContext(ActionContext);
+	const {token} = useAppState();
 	
 	const [urlRequest,setUrlRequest] = useState({
 		url:"",
@@ -17,66 +14,7 @@ const useAction = () => {
 		action:""
 	})
 	
-	//HELPERS FUNCTIONS
 	
-	useEffect(() => {
-		if(sessionStorage.getItem("state")) {
-			let state = JSON.parse(sessionStorage.getItem("state"));
-			setState(state);
-			if(state.isLogged) {
-				getList(state.token);
-			}
-		}
-	},[])
-	
-	const saveToStorage = (state) => {
-		sessionStorage.setItem("state",JSON.stringify(state));
-	}
-	
-	const setLoading = (loading) => {
-		setState((state) => {
-			return {
-				...state,
-				loading:loading,
-				error:""
-			}
-		})
-	}
-	
-	const setError = (error) => {
-		setState((state) => {
-			let tempState = {
-				...state,
-				error:error
-			}
-			saveToStorage(tempState);
-			return tempState;
-		})
-	}
-	
-	const setUser = (user) => {
-		setState((state) => {
-			let tempState = {
-				...state,
-				user:user
-			}
-			saveToStorage(tempState);
-			return tempState;
-		})
-	}
-	
-	const clearState = (error) => {
-		let state = {
-			list:[],
-			isLogged:false,
-			loading:false,
-			token:"",
-			error:error,
-			user:""
-		}
-		saveToStorage(state);
-		setState(state);
-	}
 
 	//USEEFFECT FETCH
 
@@ -86,11 +24,18 @@ const useAction = () => {
 			if(!urlRequest.url) {
 				return;
 			}
-			setLoading(true);
+			dispatch({
+				type:actionConstants.LOADING
+			})
 			const response = await fetch(urlRequest.url,urlRequest.request);
-			setLoading(false);
+			dispatch({
+				type:actionConstants.STOP_LOADING
+			})
 			if(!response) {
-				clearState("Server never responded. Logging you out. Try again later");
+				dispatch({
+					type:actionConstants.LOGOUT_FAILED,
+					error:"Server never responded. Logging you out."
+				})
 				return;
 			}
 			if(response.ok) {
@@ -98,45 +43,58 @@ const useAction = () => {
 					case "getlist":
 						const data = await response.json();
 						if(!data) {
-							setError("Failed to parse shopping information. Try again later!")
+							dispatch({
+								type:actionConstants.FETCH_LIST_FAILED,
+								error:"Failed to parse shopping information. Try again later."
+							})
 							return;
 						}
-						setState((state) => {
-							let tempState = {
-								...state,
-								list:data
-							}
-							saveToStorage(tempState);
-							return tempState;
+						dispatch({
+							type:actionConstants.FETCH_LIST_SUCCESS,
+							list:data
 						})
 						return;
 					case "add":
+						dispatch({
+							type:actionConstants.ADD_ITEM_SUCCESS
+						})
+						getList();
+						return;
 					case "remove":
+						dispatch({
+							type:actionConstants.REMOVE_ITEM_SUCCESS
+						})
+						getList();
+						return;
 					case "edit":
+						dispatch({
+							type:actionConstants.EDIT_ITEM_SUCCESS
+						})
 						getList();
 						return;
 					case "register":
-						setError("Register success");
+						dispatch({
+							type:actionConstants.REGISTER_SUCCESS
+						})
 						return
 					case "login":
 						const loginData = await response.json();
 						if(!loginData) {
-							setError("Failed to parse login information. Try again later.");
+							dispatch({
+								type:actionConstants.LOGIN_FAILED,
+								error:"Failed to parse login information. Try again later"
+							})
 							return;
 						}
-						setState((state) => {
-							let tempState = {
-								...state,
-								isLogged:true,
-								token:loginData.token
-							}
-							saveToStorage(tempState);
-							return tempState;
+						dispatch({
+							type:actionConstants.LOGIN_SUCCESS,
+							token:loginData.token
 						})
-						getList(loginData.token);
 						return;
 					case "logout":
-						clearState("");
+						dispatch({
+							type:actionConstants.LOGOUT_SUCCESS
+						})
 						return;
 					default:
 						return;
