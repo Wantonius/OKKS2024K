@@ -92,8 +92,8 @@ isUserLogged = (req,res,next) => {
 		return next();
 	} else {
 		if(req.session) {
-			req.session.destroy();
 			req.logout(function(err) {
+				req.session.destroy();
 				return res.status(403).json({"Message":"Forbidden"})
 			})
 		} else {
@@ -131,8 +131,11 @@ app.post("/login",passport.authenticate("local-login"),function(req,res) {
 
 app.post("/logout",function(req,res) {
 	if(req.session) {
-		req.session.destroy();
 		req.logout(function(err) {
+			if(err) {
+				console.log(err);
+			}
+			req.session.destroy();
 			return res.status(200).json({"Message":"Logged out"})
 		})
 	} else {
