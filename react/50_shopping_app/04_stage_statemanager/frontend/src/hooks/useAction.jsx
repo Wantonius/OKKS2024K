@@ -171,10 +171,10 @@ const useAction = () => {
 
 	//REST API
 
-	const getList = (token,search) => {
+	const getList = (t,search) => {
 		let tempToken = token;
-		if(token) {
-			tempToken = token;
+		if(t) {
+			tempToken = t;
 		}
 		let url = "/api/shopping"
 		if(search) {
