@@ -67,6 +67,81 @@ passport.use("local-login",new localStrategy({
 	})
 }))
 
+passport.serializeUser(function(user,done) {
+	console.log("serializeUser")
+	let temp = {
+		user:user.username,
+		_id:user._id
+	}
+	done(null,temp);
+})
+
+passport.deserializeUser(function(data,done) {
+	console.log("deserializeUser")
+	userModel.findOne({"_id":data._id}.then(function(user) {
+		done(null,user)
+	}).catch(function(err) {
+		done(err);
+	})
+})
+
+//MIDDLEWARE
+
+isUserLogged = (req,res,next) => {
+	if(req.isAuthenticated()) {
+		return next();
+	} else {
+		if(req.session) {
+			req.session.destroy();
+			req.logout(function(err) {
+				return res.status(403).json({"Message":"Forbidden"})
+			})
+		} else {
+			return res.status(403).json({"Message":"Forbidden"})
+		}
+	}
+}
+
+//LOGIN API
+
+app.post("/register",function(req,res) {
+	bcrypt.hash(req.body.password,14,function(err,hash) {
+		if(err) {
+			return res.status(500).json({"Message":"Internal server error"})
+		}
+		let user = new userModel({
+			username:req.body.username,
+			password:hash
+		})
+		user.save().then(function(){
+			return res.status(200).json({"Message":"Register success"})
+		}).catch(function(err) {
+			if(err.code === 11000) {
+				return res.status(409).json({"Message":"Username already in use"})
+			} else {
+				return res.status(500).json({"Message":"Internal server error"})
+			}
+		})
+	})
+})
+
+app.post("/login",passport.authenticate("local-login"),function(req,res) {
+	return res.status(200).json({"Message":"Logged in"})
+})
+
+app.post("/logout",function(req,res) {
+	if(req.session) {
+		req.session.destroy();
+		req.logout(function(err) {
+			return res.status(200).json({"Message":"Logged out"})
+		})
+	} else {
+		return res.status(404).json({"Message":"Not found"})
+	}
+})
+
+app.use("/api",isUserLogged,apiroute);
+
 app.listen(3000);
 
 console.log("Running in port 3000");
