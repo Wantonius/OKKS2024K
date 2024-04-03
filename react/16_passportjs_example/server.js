@@ -83,7 +83,7 @@ passport.deserializeUser(function(data,done) {
 	}).catch(function(err) {
 		done(err);
 	})
-})
+)})
 
 //MIDDLEWARE
 
