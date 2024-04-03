@@ -12,7 +12,7 @@ const GamePage = (props) => {
 	const onChange = (event) => {
 		setState({
 			guess:event.target.value
-		}
+		})
 	}
 	
 	const onSubmit = (event) => {

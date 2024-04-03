@@ -12,7 +12,7 @@ const StartPage = (props) => {
 	const onChange = (event) => {
 		setState({
 			name:event.target.value
-		}
+		})
 	}
 	
 	const onSubmit = (event) => {
