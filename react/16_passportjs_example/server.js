@@ -78,12 +78,12 @@ passport.serializeUser(function(user,done) {
 
 passport.deserializeUser(function(data,done) {
 	console.log("deserializeUser")
-	userModel.findOne({"_id":data._id}.then(function(user) {
+	userModel.findOne({"_id":data._id}).then(function(user) {
 		done(null,user)
 	}).catch(function(err) {
 		done(err);
 	})
-)})
+})
 
 //MIDDLEWARE
 
